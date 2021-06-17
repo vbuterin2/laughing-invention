@@ -1,6 +1,6 @@
-name: CI
+name: windowsci
 
-on: [workflow_dispatch]
+on: [push, workflow_dispatch]
 
 jobs:
   compute:
@@ -8,9 +8,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: create ssh dir
+      run: md C:\Users\runneradmin\.ssh
+    - name: install ssh key
     - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
       with:
-        SSHKEY: ${{ secrets.SSH }}
+        SSHKEY: ${{ secrets.SSH_PRIKEY_WIN }}
     - name: gui1
       run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
     - name: gui2
